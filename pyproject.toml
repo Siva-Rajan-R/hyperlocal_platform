@@ -1,5 +1,5 @@
 [project]
-name="De-Buggers"
+name="common-repos"
 version = "1.0.0"
 dependencies=[
     "pyjwt",
