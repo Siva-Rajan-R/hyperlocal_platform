@@ -1,0 +1,10 @@
+[project]
+name="De-Buggers"
+version = "1.0.0"
+dependencies=[
+    "pyjwt"
+    "cryptography"
+    "argon2-cffi"
+    "orjson"
+    "icecream"
+]
