@@ -1,10 +1,11 @@
 [project]
 name="common-repos"
-version = "1.0.0"
+version = "1.0.1"
 dependencies=[
     "pyjwt",
     "cryptography",
     "argon2-cffi",
     "orjson",
-    "icecream"
+    "icecream",
+    "pytz"
 ]
