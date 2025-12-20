@@ -2,7 +2,7 @@ from abc import ABC,abstractmethod
 from typing import Optional
 
 
-class BaseRepoModel(ABC):
+class CommonBaseRepoModel(ABC):
     @abstractmethod
     async def create(self,*args,**kwargs):
         ...
@@ -28,5 +28,5 @@ class BaseRepoModel(ABC):
         ...
 
 
-class BaseServiceModel(BaseRepoModel):
+class CommonBaseServiceModel(CommonBaseRepoModel):
     ...
