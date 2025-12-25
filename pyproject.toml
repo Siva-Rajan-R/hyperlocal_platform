@@ -1,11 +1,14 @@
 [project]
-name="common-repos"
-version = "1.0.1"
+name="hyperlocal-platform"
+version = "2.0.1"
 dependencies=[
     "pyjwt",
     "cryptography",
     "argon2-cffi",
     "orjson",
     "icecream",
-    "pytz"
+    "pytz",
+    "pydantic",
+    "redis",
+    "sqlalchemy"
 ]

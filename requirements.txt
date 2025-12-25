@@ -4,3 +4,6 @@ argon2-cffi
 orjson
 icecream
 pytz
+pydantic
+sqlalchemy
+redis
