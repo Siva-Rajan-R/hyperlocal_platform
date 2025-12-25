@@ -1,6 +1,6 @@
 from redis.asyncio import Redis
 from icecream import ic
-from core.config import SETTINGS
+from ...core.config import SETTINGS
 
 redis_client=Redis.from_url(SETTINGS.REDIS_URL,decode_responses=True)
 

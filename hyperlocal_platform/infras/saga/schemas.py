@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from core.enums.saga_state_enum import SagaStatusEnum
-from hyperlocal_platform.core.typed_dicts.saga_status_typ_dict import SagaStateErrorTypDict,SagaStateExecutionTypDict
+from ...core.enums.saga_state_enum import SagaStatusEnum
+from ...core.typed_dicts.saga_status_typ_dict import SagaStateErrorTypDict,SagaStateExecutionTypDict
 
 
 class CreateSagaStateSchema(BaseModel):

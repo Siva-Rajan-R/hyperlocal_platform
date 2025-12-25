@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker,AsyncSession,create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
-from core.config import SETTINGS
+from ...core.config import SETTINGS
 from icecream import ic
 
 

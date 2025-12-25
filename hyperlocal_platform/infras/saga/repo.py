@@ -1,10 +1,10 @@
 from .main import AsyncSession
 from sqlalchemy import select,update,delete
 from .models import SagaStates
-from core.models.service_repo_base_models import CommonBaseRepoModel
+from ...core.models.service_repo_base_models import CommonBaseRepoModel
 from .schemas import CreateSagaStateSchema,UpdateSagaStateSchema
-from core.decorators.db_session_handler_dec import start_db_transaction
-from core.enums.saga_state_enum import SagaStatusEnum
+from ...core.decorators.db_session_handler_dec import start_db_transaction
+from ...core.enums.saga_state_enum import SagaStatusEnum
 
 
 class SagaStatesRepo(CommonBaseRepoModel):
