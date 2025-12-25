@@ -2,7 +2,7 @@ from .main import AsyncSession
 from sqlalchemy import select,update,delete
 from .models import SagaStates
 from core.models.service_repo_base_models import CommonBaseRepoModel
-from .schemas import CreatedSagaStatesSchema,UpdateSagaStatesSchema
+from .schemas import CreateSagaStateSchema,UpdateSagaStateSchema
 from core.decorators.db_session_handler_dec import start_db_transaction
 from core.enums.saga_state_enum import SagaStatusEnum
 
@@ -20,14 +20,14 @@ class SagaStatesRepo(CommonBaseRepoModel):
         )
 
     @start_db_transaction
-    async def create(self,data:CreatedSagaStatesSchema):
+    async def create(self,data:CreateSagaStateSchema):
         ss_toadd=SagaStates(**data.model_dump(mode="json"))
         self.session.add(ss_toadd)
         return True
 
 
     @start_db_transaction
-    async def update(self,data:UpdateSagaStatesSchema):
+    async def update(self,data:UpdateSagaStateSchema):
         ss_toupdate=update(SagaStates).where(SagaStates.id==data.id).values(**data.model_dump(mode="json",exclude=["id"])).returning(SagaStates.id)
         is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
         return  is_updated

@@ -1,5 +1,5 @@
 from enum import Enum
 
-class EnvironmentEnums(Enum):
+class EnvironmentEnum(Enum):
     DEVELOPMENT="DEVELOPMENT"
     PRODUCTION="PRODUCTION"

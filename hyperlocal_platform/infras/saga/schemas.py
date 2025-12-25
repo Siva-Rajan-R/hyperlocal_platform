@@ -1,21 +1,21 @@
 from pydantic import BaseModel
 from core.enums.saga_state_enum import SagaStatusEnum
-from core.typed_dicts.saga_stats_typ_dict import SagaStatesErrorTypDict,SagaStatesExecutionTypDict
+from hyperlocal_platform.core.typed_dicts.saga_status_typ_dict import SagaStateErrorTypDict,SagaStateExecutionTypDict
 
 
-class CreatedSagaStatesSchema(BaseModel):
+class CreateSagaStateSchema(BaseModel):
     id:str
     status:SagaStatusEnum
     type:str
     data:dict
-    execution:SagaStatesExecutionTypDict
-    error:SagaStatesErrorTypDict
+    execution:SagaStateExecutionTypDict
+    error:SagaStateErrorTypDict
 
-class UpdateSagaStatesSchema(BaseModel):
+class UpdateSagaStateSchema(BaseModel):
     id:str
     data:dict
     status:SagaStatusEnum
     type:str
-    execution:SagaStatesExecutionTypDict
-    error:SagaStatesErrorTypDict
+    execution:SagaStateExecutionTypDict
+    error:SagaStateErrorTypDict
     retry_count:int
