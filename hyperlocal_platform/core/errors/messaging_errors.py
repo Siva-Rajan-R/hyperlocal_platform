@@ -8,6 +8,6 @@ class CommonBussinessError(CommonMessagingBaseError):
 class CommonRetryableError(CommonMessagingBaseError):
     "This error type can be re-tryable, cause based on tempory system failures"
 
-class CommonFataError(CommonMessagingBaseError):
+class CommonFatalError(CommonMessagingBaseError):
     "This error should be thrown when the system has a permant failure, bug and not solvable by own"
 
