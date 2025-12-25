@@ -8,5 +8,7 @@ class SagaStates(BASE):
     status=Column(String,nullable=False)
     type=Column(String,nullable=False)
     data=Column(JSONB,nullable=False)
+    execution=Column(JSONB,nullable=False,server_default={})
+    error=Column(JSONB,nullable=False,server_default={})
     retry_count=Column(Integer,nullable=False,server_default=text("0"))
     created_at=Column(TIMESTAMP(timezone=True),server_default=func.now())

@@ -39,6 +39,12 @@ class SagaStatesRepo(CommonBaseRepoModel):
         is_deleted=(await self.session.execute(ss_todel)).scalar_one_or_none()
         return is_deleted
     
+    @start_db_transaction
+    async def deleteby_status(self,saga_status:SagaStatusEnum):
+        ss_todel=delete(SagaStates).where(SagaStates.status==saga_status).returning(SagaStates.id)
+        is_deleted=(await self.session.execute(ss_todel)).scalar_one_or_none()
+        return is_deleted
+    
 
     @start_db_transaction
     async def update_status(self,status:SagaStatusEnum,saga_id:str):
@@ -52,10 +58,17 @@ class SagaStatesRepo(CommonBaseRepoModel):
         return is_updated
 
 
-    async def get(self):
+    async def get(self,offset:int,query:str="",limit:int=10):
+        search_term=f"%{query}%"
+        offset=(offset-1)*limit if offset>=1 else offset*limit
         saga_states=(
             await self.session.execute(
                 select(*self.ss_cols)
+                .where(
+                    SagaStates.status.ilike(search_term),
+                    SagaStates.created_at.ilike(search_term),
+                    SagaStates.type.ilike(search_term)
+                )
             )
         ).mappings().all()
 

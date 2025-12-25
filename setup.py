@@ -2,7 +2,7 @@ from setuptools import setup,find_packages
 
 setup(
     name="hyperlocal-platform",
-    version="2.0.1",
+    version="2.0.2",
     description="This contains the 'Hyperlocal Marketplace' common services,utils,repos and so on...",
     author="Siva-Rajan-R",
     author_email="siva967763@gmail.com",

@@ -3,6 +3,8 @@ from enum import Enum
 
 class SagaStatusEnum(Enum):
     PENDING="PENDING"
+    IN_PROGRESS="IN_PROGRESS"
     COMPLETED="COMPLETED"
     CANCELED="CANCELED"
+    ATTENTION_REQUIRED="ATTENTION-REQUIRED"
     
