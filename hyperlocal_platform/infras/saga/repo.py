@@ -15,6 +15,9 @@ class SagaStatesRepo(CommonBaseRepoModel):
             SagaStates.status,
             SagaStates.type,
             SagaStates.data,
+            SagaStates.execution,
+            SagaStates.steps,
+            SagaStates.error,
             SagaStates.retry_count,
             SagaStates.created_at
         )

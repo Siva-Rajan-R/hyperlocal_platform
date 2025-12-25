@@ -7,4 +7,9 @@ class SagaStatusEnum(Enum):
     COMPLETED="COMPLETED"
     CANCELED="CANCELED"
     ATTENTION_REQUIRED="ATTENTION-REQUIRED"
+
+class SagaStepsValueEnum(Enum):
+    COMPLETED="COMPLETED"
+    PENDING="PENDING"
+    FAILED="FAILED"
     
