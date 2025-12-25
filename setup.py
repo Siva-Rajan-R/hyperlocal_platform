@@ -6,6 +6,7 @@ setup(
     description="This contains the 'Hyperlocal Marketplace' common services,utils,repos and so on...",
     author="Siva-Rajan-R",
     author_email="siva967763@gmail.com",
+    url="https://github.com/Siva-Rajan-R/hyperlocal_platform.git",
     packages=find_packages(),
     install_requires=[
         "pyjwt",
