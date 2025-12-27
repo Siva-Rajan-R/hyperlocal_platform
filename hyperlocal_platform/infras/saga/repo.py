@@ -1,10 +1,13 @@
 from .main import AsyncSession
-from sqlalchemy import select,update,delete
+from sqlalchemy import select,update,delete,func,cast
+import json
 from .models import SagaStates
 from ...core.models.service_repo_base_models import CommonBaseRepoModel
+from sqlalchemy.dialects.postgresql import JSONB
 from .schemas import CreateSagaStateSchema,UpdateSagaStateSchema
 from ...core.decorators.db_session_handler_dec import start_db_transaction
-from ...core.enums.saga_state_enum import SagaStatusEnum
+from ...core.enums.saga_state_enum import SagaStatusEnum,SagaStepsValueEnum
+from ...core.typed_dicts.saga_status_typ_dict import SagaStateExecutionTypDict,SagaStateErrorTypDict
 
 
 class SagaStatesRepo(CommonBaseRepoModel):
@@ -27,6 +30,55 @@ class SagaStatesRepo(CommonBaseRepoModel):
         ss_toadd=SagaStates(**data.model_dump(mode="json"))
         self.session.add(ss_toadd)
         return True
+    
+    @start_db_transaction
+    async def merge(self,service:str,data:dict,saga_id:str):
+        ss_toupdate=(
+            update(SagaStates)
+            .where(SagaStates.id==saga_id)
+            .values(
+                data=func.jsonb_set(
+                    SagaStates.data,
+                    f'{{{service}}}',
+                    cast(json.dumps(data),JSONB),
+                    True
+                )
+            )
+        )
+
+        is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
+        return  is_updated
+    
+    @start_db_transaction
+    async def update_execution(self,execution:SagaStateExecutionTypDict,saga_id:str):
+        ss_toupdate=update(SagaStates).where(SagaStates.id==saga_id).values(execution=execution).returning(SagaStates.id)
+        is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
+        return  is_updated
+    
+    @start_db_transaction
+    async def update_error(self,error:SagaStateErrorTypDict,saga_id:str):
+        ss_toupdate=update(SagaStates).where(SagaStates.id==saga_id).values(error=error).returning(SagaStates.id)
+        is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
+        return  is_updated
+    
+    @start_db_transaction
+    async def update_step(self,key:str,status:SagaStepsValueEnum,saga_id:str):
+        status:str=status.value if isinstance(status,SagaStepsValueEnum) else status
+        ss_toupdate=(
+            update(SagaStates)
+            .where(SagaStates.id==saga_id)
+            .values(
+                steps=func.jsonb_set(
+                    SagaStates.steps,
+                    f'{{{key}}}',
+                    status,
+                    True
+                )
+            )
+            .returning(SagaStates.id)
+        )
+        is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
+        return  is_updated
 
 
     @start_db_transaction

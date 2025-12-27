@@ -8,7 +8,7 @@ from icecream import ic
 ENGINE=create_async_engine(url=SETTINGS.DATABASE_URL)
 BASE=declarative_base()
 
-AsyncLocalSession=async_sessionmaker(ENGINE)
+AsyncInfraDbLocalSession=async_sessionmaker(ENGINE)
 
 
 async def init_infra_db():
@@ -22,7 +22,7 @@ async def init_infra_db():
 
 
 async def get_infra_async_session():
-    Session=AsyncLocalSession()
+    Session=AsyncInfraDbLocalSession()
     try:
         yield Session
     finally:

@@ -1,0 +1,6 @@
+from enum import Enum 
+
+class ErrorTypeSEnum(Enum):
+    BUSSINESS_ERROR="BUSSINESS_ERROR"
+    RETRYABLE_ERROR="RETRYABLE_ERROR"
+    FATAL_ERROR="FATAL_ERROR"
