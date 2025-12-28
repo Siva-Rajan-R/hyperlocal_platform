@@ -8,5 +8,7 @@ class EventPublishingTypDict(TypedDict):
 
 class SuccessMessagingTypDict(TypedDict):
     response:Any
+    set_response:Optional[bool]=False
+    mark_completed:Optional[bool]=False
     emit_success:Optional[bool]=False
     emit_payload:Optional[EventPublishingTypDict]=None

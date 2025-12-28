@@ -1,5 +1,5 @@
 from .main import AsyncSession
-from sqlalchemy import select,update,delete,func,cast
+from sqlalchemy import select,update,delete,func,cast,ARRAY,TEXT,text,Text,String
 import json
 from .models import SagaStates
 from ...core.models.service_repo_base_models import CommonBaseRepoModel
@@ -8,6 +8,7 @@ from .schemas import CreateSagaStateSchema,UpdateSagaStateSchema
 from ...core.decorators.db_session_handler_dec import start_db_transaction
 from ...core.enums.saga_state_enum import SagaStatusEnum,SagaStepsValueEnum
 from ...core.typed_dicts.saga_status_typ_dict import SagaStateExecutionTypDict,SagaStateErrorTypDict
+from icecream import ic
 
 
 class SagaStatesRepo(CommonBaseRepoModel):
@@ -37,13 +38,9 @@ class SagaStatesRepo(CommonBaseRepoModel):
             update(SagaStates)
             .where(SagaStates.id==saga_id)
             .values(
-                data=func.jsonb_set(
-                    SagaStates.data,
-                    f'{{{service}}}',
-                    cast(json.dumps(data),JSONB),
-                    True
-                )
+                data=SagaStates.data+cast({service:data},JSONB)
             )
+            .returning(SagaStates.id)
         )
 
         is_updated=(await self.session.execute(ss_toupdate)).scalar_one_or_none()
@@ -63,17 +60,14 @@ class SagaStatesRepo(CommonBaseRepoModel):
     
     @start_db_transaction
     async def update_step(self,key:str,status:SagaStepsValueEnum,saga_id:str):
+
         status:str=status.value if isinstance(status,SagaStepsValueEnum) else status
+        ic(type(status),status,isinstance(status,SagaStepsValueEnum),key)
         ss_toupdate=(
             update(SagaStates)
-            .where(SagaStates.id==saga_id)
+            .where(SagaStates.id == saga_id)
             .values(
-                steps=func.jsonb_set(
-                    SagaStates.steps,
-                    f'{{{key}}}',
-                    status,
-                    True
-                )
+                steps=SagaStates.steps+cast({key:status},JSONB)
             )
             .returning(SagaStates.id)
         )
@@ -103,6 +97,7 @@ class SagaStatesRepo(CommonBaseRepoModel):
 
     @start_db_transaction
     async def update_status(self,status:SagaStatusEnum,saga_id:str):
+        status:str=status.value if isinstance(status,SagaStatusEnum) else status
         is_updated=(await self.session.execute(update(SagaStates).where(SagaStates.id==saga_id).values(status=status).returning(SagaStates.id))).scalar_one_or_none()
         return is_updated
     

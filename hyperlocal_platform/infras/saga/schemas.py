@@ -11,7 +11,7 @@ class CreateSagaStateSchema(BaseModel):
     data:dict
     steps:Dict[str,SagaStepsValueEnum]
     execution:SagaStateExecutionTypDict
-    error:Optional[SagaStateErrorTypDict]
+    error:Optional[SagaStateErrorTypDict]=None
 
 class UpdateSagaStateSchema(BaseModel):
     id:str
@@ -20,5 +20,5 @@ class UpdateSagaStateSchema(BaseModel):
     type:str
     steps:Dict[str,SagaStepsValueEnum]
     execution:SagaStateExecutionTypDict
-    error:Optional[SagaStateErrorTypDict]
-    retry_count:int
+    error:Optional[SagaStateErrorTypDict]=None
+    retry_count:Optional[int]=0
