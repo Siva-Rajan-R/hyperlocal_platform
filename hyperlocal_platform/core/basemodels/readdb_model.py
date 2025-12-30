@@ -1,7 +1,7 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional,Any
 
 class ReadDbBaseModel(BaseModel):
-    payload:dict
+    payload:Any
     method:str
     condition:Optional[dict]=None
